@@ -1,91 +1,70 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-import time
+import pytest
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from locators import *
 
 
-def test_button_log_in_to_account():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.education-services.ru")
-    time.sleep(3)
+class TestLoginScenarios:
+    def setup_method(self):
+        self.email = "testuser123rm@mail.ru"
+        self.password = "12345672578"
 
-    driver.find_element(By.XPATH,"//button[contains(text(), 'Войти в аккаунт')]").click()
+    def test_login_via_main_button(self, driver):
+        driver.get("https://stellarburgers.education-services.ru/")
+        wait = WebDriverWait(driver, 15)
+        wait.until(EC.element_to_be_clickable(enter_to_account_main)).click()
+        email_field = wait.until(EC.visibility_of_element_located(login_email_field))
+        email_field.clear()
+        email_field.send_keys(self.email)
+        password_field = wait.until(EC.visibility_of_element_located(login_password_field))
+        password_field.clear()
+        password_field.send_keys(self.password)
+        login_btn = wait.until(EC.element_to_be_clickable(click_login_button))
+        login_btn.click()
+        assert wait.until(EC.visibility_of_element_located(personal_area_text)).is_displayed()
+    def test_login_via_personal_account(self, driver):
+        driver.get("https://stellarburgers.education-services.ru/")
+        wait = WebDriverWait(driver, 15)
+        wait.until(EC.element_to_be_clickable(personal_account_button_main)).click()
+        email_field = wait.until(EC.visibility_of_element_located(login_email_field))
+        email_field.clear()
+        email_field.send_keys(self.email)
+        password_field = wait.until(EC.visibility_of_element_located(login_password_field))
+        password_field.clear()
+        password_field.send_keys(self.password)
+        login_btn = wait.until(EC.element_to_be_clickable(click_login_button))
+        login_btn.click()
+        assert wait.until(EC.visibility_of_element_located(personal_area_text)).is_displayed()
 
-    email_element = driver.find_elements(By.NAME, 'name')[0]
-    email_element.send_keys('testroman2000@mail.ru')
-
-    password_element = driver.find_element(By.NAME, 'Пароль')
-    password_element.send_keys('1234567')
-
-    login_button = driver.find_element(By.CLASS_NAME, 'button_button__33qZ0')
-    login_button.click()
-
-    time.sleep(3)
-    driver.quit()
-
-
-def test_button_personal_account():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.education-services.ru")
-    time.sleep(3)
-
-    driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-    time.sleep(5)
-
-    email_element = driver.find_elements(By.NAME, 'name')[0]
-    email_element.send_keys('testroman2000@mail.ru')
-
-    password_element = driver.find_element(By.NAME, 'Пароль')
-    password_element.send_keys('1234567')
-     
-    login_button = driver.find_element(By.CLASS_NAME, 'button_button__33qZ0')
-    login_button.click()
-
-    time.sleep(3)
-    driver.quit()
-
-
-def test_button_form_registration():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.education-services.ru")
-    time.sleep(3)
-       
-    driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-    time.sleep(2)
-
-    driver.find_element(By.XPATH, ".//a[text()='Зарегистрироваться']").click()
-    time.sleep(2)
-
-    login_button = driver.find_element(By.XPATH, ".//a[text()='Войти']")
-    login_button.click()
-    time.sleep(2)
-
-    driver.find_elements(By.NAME, 'name')[0].send_keys('testroman2000@mail.ru')
-    driver.find_element(By.NAME, 'Пароль').send_keys('1234567')
-    login_button = driver.find_element(By.CLASS_NAME, 'button_button__33qZ0')
-    login_button.click()
-
-    time.sleep(3)
-    driver.quit()
+    def test_login_via_registration_form(self, driver):
+        driver.get("https://stellarburgers.education-services.ru/")
+        wait = WebDriverWait(driver, 15)
+        wait.until(EC.element_to_be_clickable(personal_account_button_main)).click()
+        wait.until(EC.element_to_be_clickable(register_link)).click()
+        wait.until(EC.element_to_be_clickable(enter_button_from_forgot_password_page)).click()
+        email_field = wait.until(EC.visibility_of_element_located(login_email_field))
+        email_field.clear()
+        email_field.send_keys(self.email)
+        password_field = wait.until(EC.visibility_of_element_located(login_password_field))
+        password_field.clear()
+        password_field.send_keys(self.password)
+        login_btn = wait.until(EC.element_to_be_clickable(click_login_button))
+        login_btn.click()
+        assert wait.until(EC.visibility_of_element_located(personal_area_text)).is_displayed()
 
 
-def test_button_in_the_password_recovery_form():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.education-services.ru")
-    time.sleep(3)
-
-    driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-    time.sleep(2)
-
-    driver.find_element(By.XPATH, ".//a[text()='Восстановить пароль']").click()
-    time.sleep(2)
-    
-    driver.find_element(By.XPATH, ".//a[text()='Войти']").click()
-    time.sleep(2)
-
-    driver.find_elements(By.NAME, 'name')[0].send_keys('testroman2000@mail.ru')
-    driver.find_element(By.NAME, 'Пароль').send_keys('1234567')
-    login_button = driver.find_element(By.CLASS_NAME, 'button_button__33qZ0')
-    login_button.click()
-
-    time.sleep(3)
-    driver.quit()
+    def test_login_via_forgot_password(self, driver):
+        driver.get("https://stellarburgers.education-services.ru/")
+        wait = WebDriverWait(driver, 15)
+        wait.until(EC.element_to_be_clickable(personal_account_button_main)).click()
+        wait.until(EC.element_to_be_clickable(forgot_password_link)).click()
+        wait.until(EC.element_to_be_clickable(enter_button_from_forgot_password_page)).click()
+        email_field = wait.until(EC.visibility_of_element_located(login_email_field))
+        email_field.clear()
+        email_field.send_keys(self.email)
+        password_field = wait.until(EC.visibility_of_element_located(login_password_field))
+        password_field.clear()
+        password_field.send_keys(self.password)
+        login_btn = wait.until(EC.element_to_be_clickable(click_login_button))
+        login_btn.click()
+        assert wait.until(EC.visibility_of_element_located(personal_area_text)).is_displayed()

@@ -1,21 +1,15 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-import time
+import pytest
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from locators import *
 
-def test_click_on_personal_account():
-    driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.education-services.ru")
-    time.sleep(3)
+class TestPersonalAccount:
 
-    driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-    time.sleep(3)
-
-    driver.find_elements(By.NAME, 'name')[0].send_keys('testroman2000@mail.ru')
-    driver.find_element(By.NAME, 'Пароль').send_keys('1234567')
-    login_button = driver.find_element(By.CLASS_NAME, 'button_button__33qZ0')
-    login_button.click()
-    time.sleep(2)
-
-    driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-    time.sleep(3)
-    driver.quit()
+    def test_click_on_personal_account(self, driver):
+        driver.get("https://stellarburgers.education-services.ru")
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.element_to_be_clickable(personal_account_button_main)).click()
+        wait.until(EC.visibility_of_element_located(login_email_field)).send_keys("testuser123rom@mail.ru")
+        driver.find_element(*login_password_field).send_keys("12345672578")
+        wait.until(EC.element_to_be_clickable(click_login_button)).click()
+        assert wait.until(EC.visibility_of_element_located(personal_area_text))
