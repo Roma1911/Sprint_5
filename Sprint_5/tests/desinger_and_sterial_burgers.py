@@ -1,40 +1,47 @@
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from locators import *
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+import pytest
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+from locators import *
+from data import Logindata 
 
-class Testclickconstructorandstellarburgerslogo:
-
-    def test_switching_to_the_constructor(self):
-        driver = webdriver.Chrome()
+class TestNavigation:
+    def test_switching_to_the_constructor(self, driver):
+        wait = WebDriverWait(driver, 15)
         driver.get("https://stellarburgers.education-services.ru/")
-        driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-        driver.find_elements(By.NAME, 'name')[0].send_keys('testroman2000@mail.ru')
-        driver.find_element(By.NAME, 'Пароль').send_keys('1234567')
-        login_button = driver.find_element(By.CLASS_NAME, 'button_button__33qZ0')
+        print("Шаг 1: Кликаем на «Личный кабинет»")
+        personal_account_button = wait.until(EC.element_to_be_clickable(personal_account_button_main))
+        personal_account_button.click()
+        email_field = wait.until(EC.visibility_of_element_located(enter_reg_email))
+        email_field.clear()
+        email_field.send_keys(Logindata.email)  
+        password_field = wait.until(EC.visibility_of_element_located(enter_reg_password))
+        password_field.clear()
+        password_field.send_keys(Logindata.password)
+        login_button = wait.until(EC.element_to_be_clickable(enter_button_after_reg))
         login_button.click()
-        driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-        driver.find_element(By.XPATH, ".//p[text()='Конструктор']").click()
-        wait = WebDriverWait(driver, 10)
-        constructor_title = wait.until(
-            EC.visibility_of_element_located((By.XPATH, ".//p[text()='Конструктор']"))
-        )
+        constructor_btn = wait.until(EC.element_to_be_clickable(constructor_button))
+        constructor_btn.click()
+        constructor_title = wait.until(EC.visibility_of_element_located(constructor_button))
         assert constructor_title.is_displayed()
-        driver.quit()
 
-    def test_switching_to_the_stellar_burgers_logo(self):
-        driver = webdriver.Chrome()
+    def test_switching_to_the_stellar_burgers_logo(self, driver):
+        wait = WebDriverWait(driver, 15)
         driver.get("https://stellarburgers.education-services.ru/")
-        driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-        driver.find_elements(By.NAME, 'name')[0].send_keys('testroman2000@mail.ru')
-        driver.find_element(By.NAME, 'Пароль').send_keys('1234567')
-        login_button = driver.find_element(By.CLASS_NAME, 'button_button__33qZ0')
+        personal_account_button = wait.until(EC.element_to_be_clickable(personal_account_button_main))
+        personal_account_button.click()
+        email_field = wait.until(EC.visibility_of_element_located(enter_reg_email))
+        email_field.clear()
+        email_field.send_keys(Logindata.email)
+        password_field = wait.until(EC.visibility_of_element_located(enter_reg_password))
+        password_field.clear()
+        password_field.send_keys(Logindata.password)
+        login_button = wait.until(EC.element_to_be_clickable(enter_button_after_reg))
         login_button.click()
-        driver.find_element(By.XPATH, ".//p[text()='Личный Кабинет']").click()
-        driver.find_element(By.TAG_NAME, "svg").click()
-        wait = WebDriverWait(driver, 10)
-        main_page_element = wait.until(
-            EC.visibility_of_element_located((By.XPATH, ".//p[text()='Конструктор']"))
-        )
-        assert main_page_element.is_displayed()
+        logo_element = wait.until(EC.element_to_be_clickable(logo))
+        logo_element.click()
+        main_page_title = wait.until(EC.visibility_of_element_located(logo))
+        assert main_page_title.is_displayed()

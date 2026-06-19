@@ -1,11 +1,9 @@
 import pytest
 from selenium import webdriver
 
-@pytest.fixture(scope="class")
+@pytest.fixture(autouse=True)
 def driver():
     driver = webdriver.Chrome()
-    try:
-        yield driver
-    finally:
-        driver.quit()
-
+    driver.get("https://stellarburgers.education-services.ru/")
+    yield driver
+    driver.quit()
