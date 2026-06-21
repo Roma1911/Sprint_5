@@ -12,7 +12,7 @@ from data import Logindata
 class TestNavigation:
     def test_switching_to_the_constructor(self, driver):
         wait = WebDriverWait(driver, 15)
-        driver.get("https://stellarburgers.education-services.ru/")
+        driver.get("https://stellarburgers.education-services.ru")
         print("Шаг 1: Кликаем на «Личный кабинет»")
         personal_account_button = wait.until(EC.element_to_be_clickable(personal_account_button_main))
         personal_account_button.click()
@@ -31,7 +31,7 @@ class TestNavigation:
 
     def test_switching_to_the_stellar_burgers_logo(self, driver):
         wait = WebDriverWait(driver, 15)
-        driver.get("https://stellarburgers.education-services.ru/")
+        driver.get("https://stellarburgers.education-services.ru")
         personal_account_button = wait.until(EC.element_to_be_clickable(personal_account_button_main))
         personal_account_button.click()
         email_field = wait.until(EC.visibility_of_element_located(enter_reg_email))

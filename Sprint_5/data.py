@@ -27,5 +27,5 @@ class RegistrationData:
     invalid_password = "123"
 
 class Logindata:
-    email = 'testuser123r@mail.ru'
-    password = '1234567257'
+    email = 'testroman48@mail.ru'
+    password = '12345678'

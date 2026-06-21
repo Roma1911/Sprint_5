@@ -4,6 +4,6 @@ from selenium import webdriver
 @pytest.fixture(autouse=True)
 def driver():
     driver = webdriver.Chrome()
-    driver.get("https://stellarburgers.education-services.ru/")
+    driver.get("https://stellarburgers.education-services.ru")
     yield driver
     driver.quit()

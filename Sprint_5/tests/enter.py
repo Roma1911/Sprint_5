@@ -25,7 +25,7 @@ class TestLoginScenarios:
         assert personal_account_element.is_displayed()
 
     def test_login_via_personal_account(self, driver):
-        driver.get("https://stellarburgers.education-services.ru/")
+        driver.get("https://stellarburgers.education-services.ru")
         wait = WebDriverWait(driver, 15)
         wait.until(EC.element_to_be_clickable(personal_account_button_main)).click()
         email_field = wait.until(EC.visibility_of_element_located(enter_reg_email))
@@ -38,7 +38,7 @@ class TestLoginScenarios:
         assert personal_account_element.is_displayed()
 
     def test_login_via_registration_form(self, driver):
-        driver.get("https://stellarburgers.education-services.ru/")
+        driver.get("https://stellarburgers.education-services.ru")
         wait = WebDriverWait(driver, 15)
         wait.until(EC.element_to_be_clickable(personal_account_button_main)).click()
         wait.until(EC.element_to_be_clickable(register_link)).click()
