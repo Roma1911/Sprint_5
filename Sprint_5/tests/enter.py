@@ -1,6 +1,8 @@
 import pytest
+from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from locators import *
 
 
@@ -61,5 +63,6 @@ class TestLoginScenarios:
         password_field = wait.until(EC.visibility_of_element_located(login_password_field))
         password_field.send_keys(self.password)
         login_btn = wait.until(EC.element_to_be_clickable(click_login_button))
+        login_btn.click()
         personal_account_element = wait.until(EC.visibility_of_element_located(personal_account_button_main))
         assert personal_account_element.is_displayed()
