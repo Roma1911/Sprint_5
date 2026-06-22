@@ -9,7 +9,6 @@ from locators import *
 class TestPersonalAccount:
 
     def test_click_on_personal_account(self, driver):
-        driver.get("https://stellarburgers.education-services.ru/")
         wait = WebDriverWait(driver, 10)  
         personal_account_button = wait.until(EC.element_to_be_clickable(personal_account_button_main))
         personal_account_button.click()

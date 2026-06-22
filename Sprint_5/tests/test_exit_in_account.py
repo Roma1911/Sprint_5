@@ -10,7 +10,6 @@ from data import Logindata
 class TestLogoutOfAccount:
     def test_exit_via_logout_button(self, driver):
         wait = WebDriverWait(driver, 15)
-        driver.get("https://stellarburgers.education-services.ru")
         personal_account_btn = wait.until(EC.element_to_be_clickable(personal_account_button_main))
         personal_account_btn.click()
         email_field = wait.until(EC.visibility_of_element_located(enter_reg_email))

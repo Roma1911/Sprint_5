@@ -29,3 +29,8 @@ class RegistrationData:
 class Logindata:
     email = 'testroman48@mail.ru'
     password = '12345678'
+
+
+class TestLoginScenarios:
+    email = "testuser123rm@mail.ru"
+    password = "12345672578"
